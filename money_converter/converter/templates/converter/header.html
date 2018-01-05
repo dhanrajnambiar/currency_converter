@@ -1,0 +1,24 @@
+<header class="header clearfix">
+  <nav>
+    <ul class="nav nav-pills float-right">
+      <li class="nav-item">
+        {% if '/login' in request.get_full_path %}
+        <a class="nav-link active" href="{% url 'user_signup' %}">REGISTER <span class="sr-only">(current)</span></a>
+        {% endif %}
+        {% if '/signup' in request.get_full_path %}
+        <a class="nav-link active" href="{% url 'user_login' %}">LOGIN<span class="sr-only">(current)</span></a>
+        {% endif %}
+      </li>
+      {% if '/logout' in request.get_full_path %}
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'user_signup' %}">REGISTER<span class="sr-only">(current)</span></a>
+        </li>
+        <li class = "nav-item">
+          <a class = "nav-link" href = "{% url 'user_login' %}">LOGIN</a>
+        </li>
+      {% endif %}
+      
+    </ul>
+  </nav>
+  <h4 class="text-muted">CURRENCY CONVERTER</h4>
+</header>

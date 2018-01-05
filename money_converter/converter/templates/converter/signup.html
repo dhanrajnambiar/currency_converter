@@ -1,0 +1,13 @@
+{% extends "basic.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <div class = "col-lg-8 col-md-8 col-sm-6" style="text-align:left">
+    <h2 style = "text-align:center;">{{ title }}</h2>
+    <form method = "post", action = ""> {% csrf_token %}
+      {{ form|crispy }}
+      <button class = "btn btn-primary">SignUp</button>
+    </form>
+  </div>
+{% endblock %}

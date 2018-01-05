@@ -1,0 +1,21 @@
+{% load staticfiles %}
+
+<html lang="en">
+
+  <head>
+    {% include "head_css.html" %}
+  </head>
+
+  <body>
+    <div class="container">
+      {% include "app_home_header.html" %}
+      <main role="main">
+        <div class="jumbotron">
+          {% block content %}
+          {% endblock %}
+        </div>
+      </main>
+    </div> <!-- /container -->
+  </body>
+
+</html>

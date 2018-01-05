@@ -1,0 +1,21 @@
+{% extends "basic2.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class = "row">
+  <div class = "col-lg-8 col-md-8 col-sm-6" style="text-align:center">
+    <h3>{{ title }}</h3>
+    <form method = 'post', action = ''> {%csrf_token %}
+      {{ form|crispy }}
+      <button class = "btn btn-primary">Convert</button>
+    </form>
+  </div>
+  {% if result %}
+    <div class = "col-lg-4 col-md-4 col-sm-6" style="text-align:center;">
+      <h2>RESULT</h2>
+        <p style="text-align:center"><strong> {{ val }} {{ from }} is equal to {{ result }} {{ to }}</strong></p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
