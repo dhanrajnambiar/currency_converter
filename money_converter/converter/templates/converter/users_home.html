@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class = "row">
-  <div class = "col-lg-8 col-md-8 col-sm-6" style="text-align:center">
+  <div class = "col-lg-8 col-md-8 col-sm-6" style="text-align:left">
     <h3>{{ title }}</h3>
     <form method = 'post', action = ''> {%csrf_token %}
       {{ form|crispy }}
@@ -13,9 +13,24 @@
   </div>
   {% if result %}
     <div class = "col-lg-4 col-md-4 col-sm-6" style="text-align:center;">
-      <h2>RESULT</h2>
+      <h2><u>RESULT</u></h2>
         <p style="text-align:center"><strong> {{ val }} {{ from }} is equal to {{ result }} {{ to }}</strong></p>
     </div>
   {% endif %}
 </div>
+<div class = "row" style = "text-align:left">
+  {% if trans_list %}
+    <div class = "col-12">
+      <h2><u>Previous Enquiries</u></h2>
+    </div>
+    <div class = "col-12">
+      <ul>
+        {% for items in trans_list %}
+        <li>{{ items.text }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+</div>
+
 {% endblock %}

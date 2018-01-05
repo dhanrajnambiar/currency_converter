@@ -9,10 +9,6 @@ class RegForm(UserCreationForm):
         model = User
         fields = ['username','password1','password2']
 
-    # def __init__(self, *args, **kwargs):# this is for removing the lengthy help_text from pwd1 and 2 fields (RegForm, self)
-    #     super(RegForm,self).__init__(*args, **kwargs)
-    #     for fieldname in ['username', 'password1', 'password2']:
-    #         self.fields[fieldname].help_text = None
 
 class convertForm(forms.Form):
     options = [

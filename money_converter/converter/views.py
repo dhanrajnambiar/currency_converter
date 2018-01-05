@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 
 import requests, re
 from django.contrib.auth.models import User
-
+from .models import client
 from .forms import RegForm, convertForm, loginForm
 
 
@@ -22,6 +22,7 @@ def signup(request):
     form_var = RegForm(request.POST or None)
     heading = "SignUp"
     if request.method == 'POST':
+        if form_var.is_valid():
             form_var.save(commit = False)
             usrname = form_var.cleaned_data.get('username')
             pwd = form_var.cleaned_data.get('password1')
@@ -88,11 +89,16 @@ def homepage(request, username):
         matchobj = re.search(regobj, r.content.decode())
         if matchobj != None:
             value = matchobj.group(1)
-            return(float(value) * much)
+            return round((float(value) * much), 3)
 
     if request.user.is_authenticated:
+        x = User.objects.get(username = username)
+        a = client.objects.get(user = x)
+        trans_hist = a.list_transactions()
+
         if request.method == "GET":
             context = {
+                'trans_list': trans_hist,
                 'title':welcome_note,
                 'form':form_var,
             }
@@ -106,8 +112,11 @@ def homepage(request, username):
             else:
                 result = val_to_convert
 
+            res_str = selected_1 + ' to ' + selected_2 + ' ' + val_to_convert + ' result: ' + str(result)
+            a.add_transactions(res_str)
+
             context = {
-                'result':result,'title':welcome_note,'form':form_var,'from':selected_1,'to':selected_2,'val':val_to_convert,
+                'result':result,'title':welcome_note,'form':form_var,'from':selected_1,'to':selected_2,'val':val_to_convert,'trans_list':trans_hist,
             }
 
     else:
