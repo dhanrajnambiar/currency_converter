@@ -57,7 +57,7 @@ def login_user(request):
     if pwd_flag:
         alert_msg = "Username or Password is Incorrect.Please enter correct login details!!!"
     else:
-        alert_msg = ""
+        alert_msg = None
 
     context = {
         'msg':alert_msg,
