@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 
-import requests, re
+import requests, re, json
 from django.contrib.auth.models import User
 from .models import client
 from .forms import RegForm, convertForm, loginForm
@@ -84,12 +84,13 @@ def homepage(request, username):
     form_var = convertForm(request.POST or None)
 
     def conv(curr_from,curr_to,much):
-        r = requests.get("http://api.fixer.io/latest?base=%s" % curr_from)
-        regobj = re.compile(r'\"%s\":(\d+.\d+)' % curr_to)
-        matchobj = re.search(regobj, r.content.decode())
-        if matchobj != None:
-            value = matchobj.group(1)
-            return round((float(value) * much), 3)
+        if curr_from != curr_to:
+            r = requests.get("http://api.fixer.io/latest?base=%s" % curr_from)
+            s = r.content.decode()#converting to text from byte file retruned by api
+            data = json.loads(s)#converting to json format |||lr to dict data type
+            return round((data['rates'][curr_to] * much), 3)
+        else:
+            return much
 
     if request.user.is_authenticated:
         x = User.objects.get(username = username)
