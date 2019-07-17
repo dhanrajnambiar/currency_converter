@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 
-import requests, re, json
+import requests, re, json, pdb
 from django.contrib.auth.models import User
 from .models import client
 from .forms import RegForm, convertForm, loginForm
@@ -85,10 +85,12 @@ def homepage(request, username):
 
     def conv(curr_from,curr_to,much):
         if curr_from != curr_to:
-            r = requests.get("http://api.fixer.io/latest?base=%s" % curr_from)
-            s = r.content.decode()#converting to text from byte file retruned by api
-            data = json.loads(s)#converting to json format |||lr to dict data type
-            return round((data['rates'][curr_to] * much), 3)
+            api_res = requests.get("http://data.fixer.io/api/latest?access_key=7ff50c0b9d64f61de0d000a45bb31a5d")
+            res_json = api_res.json()#conv to json the datas
+            # pdb.set_trace()
+            src_to_b = round((1 / res_json['rates'][curr_from]), 2)#value of base curr for one unit of curr_from
+            b_to_dest = round((res_json['rates'][curr_to]), 2)#value of curr_to for one unit of base curr
+            return round((src_to_b * b_to_dest * much), 2)
         else:
             return much
 
